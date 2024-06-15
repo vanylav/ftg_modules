@@ -117,7 +117,7 @@ class AutoLoadMod(loader.Module):
                 try:
                     print(message)
                     path = await self.client.download_media(message)
-                    await self.client.send_file(save, path, caption=f"Self-destructing photo from {user.first_name}")
+                    await self.client.send_file('me', path, caption=f"Self-destructing photo from {user.first_name}")
                     os.remove(path)
                 except:
                     pass
