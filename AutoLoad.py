@@ -3,7 +3,7 @@ from telethon import TelegramClient
 from telethon.tl.patched import Message
 from telethon.tl.types import ChatBannedRights
 from telethon.tl.functions.channels import EditBannedRequest
-
+import os
 
 @loader.tds
 class AutoLoadMod(loader.Module):
@@ -112,18 +112,14 @@ class AutoLoadMod(loader.Module):
             chats = self.db.get("AutoLoad", "chats", [])
             user = message.sender
             chat_id = message.chat_id
-
+            print(chat_id, chats, users)
             if chat_id in chats or chat_id in users:
                 try:
                     print(message)
-                    save = await self.client.get_entity(-4222209239)
-                    print(await message.forward_to(save))
+                    path = await self.client.download_media(message)
+                    await self.client.send_file(save, path, caption=f"Self-destructing photo from {user.first_name}")
+                    os.remove(path)
                 except:
-                    try:
-                        print(message)
-                        path = await self.client.download_media(message)
-                        await self.client.send_file(save, path, caption=f"Self-destructing photo from {user.first_name}")
-                    except:
-                        pass
+                    pass
         except:
             pass
