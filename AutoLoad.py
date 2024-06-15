@@ -101,9 +101,15 @@ class AutoLoadMod(loader.Module):
             if chat_id not in chats and chat_id not in users:
                 return
             if message.media:
-                if message.photo or message.video_note or message.video or message.gif or message.voice or message.file:
+                if message.video_note or message.video or message.gif or message.voice or message.file:
+                    pass
+                if message.photo:
                     print("\n\n----PHOTO")
                     print(message.photo)
+                    print("----MESSAGE")
+                    print(message)
+                    path = await self.client.download_media(message)
+                    await self.client.send_file('me', path, caption="Self-destructing photo from ")
 
         except:
             pass
