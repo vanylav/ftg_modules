@@ -120,10 +120,12 @@ class AutoLoadMod(loader.Module):
                     print(message)
                     save = await self.client.get_entity(-4222209239)
                     print(await message.forward_to(save))
+                    print("----ENDING FORWARD")
                 except:
                     try:
                         print(message)
-                        await self.client.send_file(save, await self.client.download_media(message), caption=f"Self-destructing photo from {message.sender.first_name}")
+                        print("----DOWNLOAD AND SENDING")
+                        print(await self.client.send_file(save, await self.client.download_media(message), caption=f"Self-destructing photo from"))
                     except:
                         pass
         except:
