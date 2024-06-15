@@ -14,8 +14,8 @@ class AutoLoadMod(loader.Module):
         self.client = client
         self.db = db
 
-    async def addchatcmd(self, message: Message):
-        """Добавить/исключить юзера из автозагрузки.\nИспользуй: .addchat <@ или реплай> или <list>."""
+    async def addusercmd(self, message: Message):
+        """Добавить/исключить юзера из автозагрузки.\nИспользуй: .adduser <@ или реплай> или <list>."""
         users = self.db.get("AutoLoad", "users", [])
         args = utils.get_args_raw(message)
         reply = await message.get_reply_message()
