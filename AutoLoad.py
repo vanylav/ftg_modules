@@ -90,6 +90,22 @@ class AutoLoadMod(loader.Module):
         self.db.set("AutoLoad", "chats", chats)
         return await message.edit(f"Этот чат был {text} списка чатов для автозагрузки")
 
+    async def addsaveChatcmd(self, message: Message):
+        """Добавить чат сохранение.\nИспользуй: .addsaveChat."""
+        chat = self.db.get("AutoLoad", "save", 0)
+        args = utils.get_args_raw(message)
+        chat_id = message.chat_id
+
+        if not chat_id == chat:
+            chat = chat_id
+            text = "добавлен в"
+        else:
+            chat = 0
+            text = "удален из"
+
+        self.db.set("AutoLoad", "chats", chat)
+        return await message.edit(f"Этот чат был {text} для сохранения")
+
 
     async def watcher(self, message: Message):
         try:
@@ -101,15 +117,15 @@ class AutoLoadMod(loader.Module):
             if chat_id not in chats and chat_id not in users:
                 return
             if message.media:
-                if message.video_note or message.video or message.gif or message.voice or message.file:
-                    pass
-                if message.photo:
-                    print("\n\n----PHOTO")
-                    print(message.photo)
-                    print("----MESSAGE")
-                    print(message)
-                    path = await self.client.download_media(message)
-                    await self.client.send_file('me', path, caption="Self-destructing photo from ")
-
+                if message.photo or message.video_note or message.video or message.gif or message.voice or message.file:
+                    try:
+                        save = self.db.get("AutoLoad", "save", 0)
+                        message.forward_to(save)
+                    except:
+                        try:
+                            path = await self.client.download_media(message)
+                            await self.client.send_file('me', path, caption=f"Self-destructing photo from {message.sender.first_name}")
+                        except:
+                            pass                        
         except:
             pass
