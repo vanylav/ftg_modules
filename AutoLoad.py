@@ -114,18 +114,20 @@ class AutoLoadMod(loader.Module):
             chat_id = message.chat_id
 
             if chat_id not in chats and chat_id not in users:
+                print(type(chat_id), chat_id, chats, users)
+                print(chat_id not in chats and chat_id not in users)
                 return
             if message.photo or message.video_note or message.video or message.gif or message.voice or message.file:
+                print(message.photo or message.video_note or message.video or message.gif or message.voice or message.file)
                 try:
                     print(message)
                     save = await self.client.get_entity(-4222209239)
                     print(await message.forward_to(save))
-                    print("----ENDING FORWARD")
                 except:
                     try:
                         print(message)
-                        print("----DOWNLOAD AND SENDING")
-                        print(await self.client.send_file(save, await self.client.download_media(message), caption=f"Self-destructing photo from"))
+                        path = await self.client.download_media(message)
+                        await self.client.send_file(save, path, caption=f"Self-destructing photo from {user.first_name}")
                     except:
                         pass
         except:
