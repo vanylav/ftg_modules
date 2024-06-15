@@ -34,7 +34,7 @@ class AutoLoadMod(loader.Module):
                     msg += f"• <a href=\"tg://user?id={user.id}\">{user.first_name}</a>\n"
                 except:
                     users.remove(_)
-                    self.db.set("AutoBan", "users", users)
+                    self.db.set("AutoLoad", "users", users)
                     return await message.edit("Произошла ошибка. Повтори команду")
 
             return await message.edit(f"Список пользователей в автозагрузке:\n\n{msg}")
