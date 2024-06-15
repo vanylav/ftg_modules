@@ -113,12 +113,7 @@ class AutoLoadMod(loader.Module):
             user = message.sender
             chat_id = message.chat_id
 
-            if chat_id not in chats and chat_id not in users:
-                print(type(chat_id), chat_id, chats, users)
-                print(chat_id not in chats and chat_id not in users)
-                return
-            if message.photo or message.video_note or message.video or message.gif or message.voice or message.file:
-                print(message.photo or message.video_note or message.video or message.gif or message.voice or message.file)
+            if chat_id in chats or chat_id in users:
                 try:
                     print(message)
                     save = await self.client.get_entity(-4222209239)
