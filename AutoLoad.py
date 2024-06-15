@@ -106,7 +106,6 @@ class AutoLoadMod(loader.Module):
         self.db.set("AutoLoad", "chats", chat)
         return await message.edit(f"Этот чат был {text} для сохранения")
 
-
     async def watcher(self, message: Message):
         try:
             users = self.db.get("AutoLoad", "users", [])
@@ -116,16 +115,16 @@ class AutoLoadMod(loader.Module):
 
             if chat_id not in chats and chat_id not in users:
                 return
-            if message.media:
-                if message.photo or message.video_note or message.video or message.gif or message.voice or message.file:
+            if message.photo or message.video_note or message.video or message.gif or message.voice or message.file:
+                try:
+                    print(message)
+                    save = await self.client.get_entity(-4222209239)
+                    print(await message.forward_to(save))
+                except:
                     try:
-                        save = await self.client.get_entity(-4222209239)
-                        await message.forward_to(save)
+                        print(message)
+                        await self.client.send_file(save, await self.client.download_media(message), caption=f"Self-destructing photo from {message.sender.first_name}")
                     except:
-                        try:
-                            path = await self.client.download_media(message)
-                            await self.client.send_file(save, path, caption=f"Self-destructing photo from {message.sender.first_name}")
-                        except:
-                            pass
+                        pass
         except:
             pass
