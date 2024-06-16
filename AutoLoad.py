@@ -112,7 +112,7 @@ class AutoLoadMod(loader.Module):
     async def watcher(self, message: Message):
             users = self.db.get("AutoLoad", "users", [])
             chats = self.db.get("AutoLoad", "chats", [])
-            user = message.sender
+            user = message.sender if message.sender else None
             chat_id = message.chat_id
 
             if chat_id not in chats and chat_id not in users:
@@ -121,7 +121,7 @@ class AutoLoadMod(loader.Module):
                 try:
                     save = await self.client.get_entity(-4222209239)
                     path = await self.client.download_media(message)
-                    send = await self.client.send_file(save, path, caption=f"Self-destructing photo from {user.first_name}")
+                    send = await self.client.send_file(save, path, caption=f"Self-destructing photo from {user.first_name if not user == None else "None???}")
                     os.remove(path)
                 except Exception as er:
                     await self.client.send_message('me', 'Error: '+str(er))
