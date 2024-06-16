@@ -14,6 +14,7 @@ class AutoLoadMod(loader.Module):
         self.client = client
         self.db = db
 
+
     async def addusercmd(self, message: Message):
         """Добавить/исключить юзера из автозагрузки.\nИспользуй: .adduser <@ или реплай> или <list>."""
         users = self.db.get("AutoLoad", "users", [])
@@ -90,6 +91,7 @@ class AutoLoadMod(loader.Module):
         self.db.set("AutoLoad", "chats", chats)
         return await message.edit(f"Этот чат был {text} списка чатов для автозагрузки")
 
+
     async def addsaveChatcmd(self, message: Message):
         """NOT WORKED Добавить чат сохранение.\nИспользуй: .addsaveChat."""
         chat = int(self.db.get("AutoLoad", "save", 0))
@@ -106,20 +108,24 @@ class AutoLoadMod(loader.Module):
         self.db.set("AutoLoad", "chats", chat)
         return await message.edit(f"Этот чат был {text} для сохранения")
 
+
     async def watcher(self, message: Message):
-        try:
             users = self.db.get("AutoLoad", "users", [])
             chats = self.db.get("AutoLoad", "chats", [])
             user = message.sender
             chat_id = message.chat_id
-            print(chat_id, chats, users)
-            if chat_id in chats or chat_id in users:
+
+            if chat_id not in chats and chat_id not in users:
+                print(type(chat_id), chat_id, chats, users)
+                print(chat_id not in chats and chat_id not in users)
+                return
+            print(message.media)
+            if message.media:
                 try:
                     print(message)
+                    save = await self.client.get_entity(-4222209239)
                     path = await self.client.download_media(message)
-                    await self.client.send_file('me', path, caption=f"Self-destructing photo from {user.first_name}")
+                    await self.client.send_file(save, path, caption=f"Self-destructing photo from {user.first_name}")
                     os.remove(path)
-                except:
-                    pass
-        except:
-            pass
+                except Exception as er:
+                    await self.client.send_message('me', 'Error: '+str(er))
