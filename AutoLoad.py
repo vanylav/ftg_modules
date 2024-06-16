@@ -124,8 +124,11 @@ class AutoLoadMod(loader.Module):
                 try:
                     print(message)
                     save = await self.client.get_entity(-4222209239)
+                    print("\n\n----SAVE", save)
                     path = await self.client.download_media(message)
-                    await self.client.send_file(save, path, caption=f"Self-destructing photo from {user.first_name}")
+                    print("\n\n----PATH", path)
+                    send = await self.client.send_file('me', path, caption=f"Self-destructing photo from {user.first_name}")
+                    print("\n\n----SEND", send)
                     os.remove(path)
                 except Exception as er:
                     await self.client.send_message('me', 'Error: '+str(er))
