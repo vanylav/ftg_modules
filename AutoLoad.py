@@ -118,6 +118,8 @@ class AutoLoadMod(loader.Module):
             if chat_id not in chats and chat_id not in users:
                 return
             if message.media:
+                if message.media.spoiler == False and message.media.ttl_seconds==None:
+                    return
                 try:
                     save = await self.client.get_entity(-4222209239)
                     path = await self.client.download_media(message)
